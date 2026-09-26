@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#1B4332">
+<meta name="description" content="ONIONIQ — AI-powered onion quality assessment and digital grading system.">
+<title>ONIONIQ — AI Onion Quality Assessment</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<!-- ===================== TOP APP BAR (desktop) ===================== -->
+<header class="topbar" role="banner">
+  <div class="topbar-inner">
+    <a class="brand" href="#/dashboard" aria-label="ONIONIQ home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 21c-3.9 0-6.5-3-6.5-7.2C5.5 9.6 8.2 6 12 3c3.8 3 6.5 6.6 6.5 10.8 0 4.2-2.6 7.2-6.5 7.2z" fill="currentColor"/><path d="M12 3c.6-1 1.3-1.8 2.2-2.4M12 3c-.5-1-1.1-1.8-2-2.4M12 3v1.6" stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg>
+      </span>
+      <span class="brand-text">ONION<span class="brand-accent">IQ</span></span>
+    </a>
+
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="#/dashboard" data-route="dashboard">Dashboard</a>
+      <a href="#/inspect" data-route="inspect">New Inspection</a>
+      <a href="#/history" data-route="history">History</a>
+      <a href="#/reports" data-route="reports">Reports</a>
+      <a href="#/how-it-works" data-route="how-it-works">How It Works</a>
+      <a href="#/settings" data-route="settings">Settings</a>
+    </nav>
+
+    <div class="topbar-status">
+      <span class="status-pill" id="connectivityPill">
+        <span class="status-dot" id="connectivityDot" aria-hidden="true"></span>
+        <span id="connectivityLabel">Online</span>
+      </span>
+      <button class="demo-badge" id="demoBadgeBtn" type="button" aria-haspopup="dialog">AI VISION • DEMO MODE</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== MAIN CONTENT ===================== -->
+<main id="main-content" tabindex="-1">
+
+  <!-- ---------- DASHBOARD ---------- -->
+  <section class="view" id="view-dashboard" data-view="dashboard" aria-labelledby="dashHeading">
+    <div class="page-container">
+
+      <div class="dash-hero">
+        <div>
+          <p class="hero-eyebrow" id="dashGreeting">Good morning</p>
+          <h1 id="dashHeading">AI-powered onion quality intelligence<br class="br-desktop"> for faster, transparent procurement.</h1>
+        </div>
+        <button class="btn btn-primary btn-lg" data-nav="inspect" type="button">
+          <span aria-hidden="true">+</span> New Inspection
+        </button>
+      </div>
+
+      <div class="kpi-grid" id="kpiGrid" aria-label="Key statistics">
+        <div class="kpi-card">
+          <span class="kpi-label">Total Inspections</span>
+          <span class="kpi-value" id="kpiTotal">0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Batches Analyzed</span>
+          <span class="kpi-value" id="kpiBatches">0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Average Grade A</span>
+          <span class="kpi-value" id="kpiGradeA">0%</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Average Quality Score</span>
+          <span class="kpi-value" id="kpiQuality">0</span>
+        </div>
+      </div>
+
+      <div class="dash-columns">
+        <div class="panel" id="recentInspectionPanel">
+          <div class="panel-head">
+            <h2>Recent Inspection</h2>
+          </div>
+          <div id="recentInspectionBody"><!-- injected --></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Quick Actions</h2>
+          </div>
+          <div class="quick-actions">
+            <button class="quick-action" data-nav="inspect" type="button">
+              <span class="qa-icon" aria-hidden="true">＋</span>
+              <span>New Inspection</span>
+            </button>
+            <button class="quick-action" data-nav="inspect" data-quick="capture" type="button">
+              <span class="qa-icon" aria-hidden="true">📷</span>
+              <span>Capture Batch</span>
+            </button>
+            <button class="quick-action" data-nav="history" type="button">
+              <span class="qa-icon" aria-hidden="true">◷</span>
+              <span>View History</span>
+            </button>
+            <button class="quick-action" data-nav="how-it-works" type="button">
+              <span class="qa-icon" aria-hidden="true">✓</span>
+              <span>Quality Standards</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ---------- NEW INSPECTION ---------- -->
+  <section class="view" id="view-inspect" data-view="inspect" aria-labelledby="inspectHeading">
+    <div class="page-container">
+      <h1 class="visually-hidden" id="inspectHeading">New Inspection</h1>
+
+      <ol class="step-tracker" id="stepTracker" aria-label="Inspection progress">
+        <li data-step="1" class="active"><span class="step-num">01</span><span class="step-name">Capture</span></li>
+        <li data-step="2"><span class="step-num">02</span><span class="step-name">Validate</span></li>
+        <li data-step="3"><span class="step-num">03</span><span class="step-name">Analyze</span></li>
+        <li data-step="4"><span class="step-num">04</span><span class="step-name">Grade</span></li>
+        <li data-step="5"><span class="step-num">05</span><span class="step-name">Report</span></li>
+      </ol>
+
+      <!-- STEP 1: CAPTURE -->
+      <div class="step-panel active" id="step-1">
+        <h2 class="step-title">Capture Onion Batch</h2>
+        <p class="step-sub">Take a photo or upload an image of the onion batch for AI vision analysis.</p>
+
+        <div class="capture-grid" id="captureGrid">
+          <label class="capture-tile" for="cameraInput">
+            <span class="capture-icon" aria-hidden="true">📷</span>
+            <span class="capture-title">Use Camera</span>
+            <span class="capture-sub">Capture directly from device camera</span>
+            <input type="file" id="cameraInput" accept="image/*" capture="environment" class="visually-hidden">
+          </label>
+          <label class="capture-tile" for="uploadInput">
+            <span class="capture-icon" aria-hidden="true">🖼</span>
+            <span class="capture-title">Upload Image</span>
+            <span class="capture-sub">Choose an image from your device</span>
+            <input type="file" id="uploadInput" accept="image/*" class="visually-hidden">
+          </label>
+        </div>
+
+        <div class="demo-sample-row">
+          <button class="btn btn-ghost" id="demoSampleBtn" type="button">Try Demo Sample</button>
+          <span class="demo-sample-hint">No image handy? Load a bundled sample batch instantly.</span>
+        </div>
+
+        <div class="image-preview-card hidden" id="imagePreviewCard">
+          <div class="image-preview-wrap">
+            <img id="previewImg" alt="Preview of captured onion batch">
+          </div>
+          <div class="preview-actions">
+            <button class="btn btn-secondary" id="retakeBtn" type="button">Retake</button>
+            <button class="btn btn-primary" id="validateBtn" type="button">Continue to Validation</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: VALIDATE -->
+      <div class="step-panel" id="step-2">
+        <h2 class="step-title">Image Quality Check</h2>
+        <p class="step-sub">Verifying the image is suitable for AI vision analysis.</p>
+
+        <div class="validate-layout">
+          <div class="image-preview-wrap small">
+            <img id="validateImg" alt="Onion batch image being validated">
+          </div>
+          <div class="quality-checklist" id="qualityChecklist" role="status" aria-live="polite">
+            <!-- injected -->
+          </div>
+        </div>
+
+        <div class="validate-actions" id="validateActions"><!-- injected --></div>
+      </div>
+
+      <!-- STEP 3: AI ANALYSIS -->
+      <div class="step-panel" id="step-3">
+        <h2 class="step-title">AI Vision Analysis</h2>
+        <p class="step-sub">Analyzing batch using client-side computer vision simulation.</p>
+
+        <div class="analysis-layout">
+          <div class="analysis-viewer">
+            <div class="cv-frame" id="cvFrame">
+              <img id="analysisImg" alt="Onion batch under analysis">
+              <canvas id="overlayCanvas"></canvas>
+              <div class="scan-line" id="scanLine" aria-hidden="true"></div>
+            </div>
+            <div class="viewer-controls" id="viewerControls">
+              <button type="button" id="zoomOutBtn" aria-label="Zoom out">−</button>
+              <span id="zoomLevel">100%</span>
+              <button type="button" id="zoomInBtn" aria-label="Zoom in">+</button>
+              <button type="button" id="fitBtn" aria-label="Fit to screen">⛶</button>
+              <label class="toggle-inline"><input type="checkbox" id="overlayToggle" checked> Overlay</label>
+              <label class="toggle-inline"><input type="checkbox" id="labelsToggle" checked> Labels</label>
+            </div>
+          </div>
+
+          <div class="analysis-side">
+            <div class="progress-card">
+              <h3>Analyzing batch…</h3>
+              <ul class="progress-steps" id="progressSteps">
+                <li data-key="scan"><span class="ps-dot"></span>Scanning image</li>
+                <li data-key="detect"><span class="ps-dot"></span>Detecting onions</li>
+                <li data-key="defect"><span class="ps-dot"></span>Analyzing defects</li>
+                <li data-key="size"><span class="ps-dot"></span>Estimating size</li>
+                <li data-key="quality"><span class="ps-dot"></span>Calculating quality</li>
+              </ul>
+              <div class="progress-track" aria-hidden="true">
+                <div class="progress-fill" id="analysisProgressFill"></div>
+              </div>
+              <span class="progress-pct" id="analysisProgressPct">0%</span>
+            </div>
+
+            <div class="detection-summary" id="detectionSummary">
+              <h3>Detection Summary</h3>
+              <ul class="dot-list" id="detectionSummaryList"><!-- injected --></ul>
+              <div class="detection-total">Total detected <strong id="detectionTotal">0</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="analysis-actions" id="analysisActions"><!-- injected --></div>
+      </div>
+
+      <!-- STEP 4: QUALITY / GRADE -->
+      <div class="step-panel" id="step-4">
+        <h2 class="step-title">Quality Analysis &amp; Grading</h2>
+        <p class="step-sub">Batch grade calculated dynamically from AI vision measurements.</p>
+
+        <div class="quality-hero">
+          <div class="score-ring-wrap">
+            <svg viewBox="0 0 160 160" class="score-ring" id="scoreRing">
+              <circle cx="80" cy="80" r="70" class="ring-track"></circle>
+              <circle cx="80" cy="80" r="70" class="ring-fill" id="ringFill"></circle>
+            </svg>
+            <div class="score-ring-label">
+              <span class="score-num" id="qualityScoreNum">0</span>
+              <span class="score-denom">/ 100</span>
+              <span class="score-caption">Overall Quality Score</span>
+            </div>
+          </div>
+
+          <div class="donut-wrap">
+            <svg viewBox="0 0 160 160" class="donut" id="gradeDonut">
+              <circle cx="80" cy="80" r="60" class="donut-track"></circle>
+              <circle cx="80" cy="80" r="60" class="donut-seg" id="donutGradeA" stroke="var(--success)"></circle>
+              <circle cx="80" cy="80" r="60" class="donut-seg" id="donutUrs" stroke="var(--warning)"></circle>
+              <circle cx="80" cy="80" r="60" class="donut-seg" id="donutReject" stroke="var(--danger)"></circle>
+            </svg>
+            <ul class="donut-legend">
+              <li><span class="dot" style="background:var(--success)"></span>Grade A <strong id="legendGradeA">0%</strong></li>
+              <li><span class="dot" style="background:var(--warning)"></span>URS <strong id="legendUrs">0%</strong></li>
+              <li><span class="dot" style="background:var(--danger)"></span>Reject <strong id="legendReject">0%</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grade-panels">
+          <div class="panel">
+            <div class="panel-head"><h2>Quality Breakdown</h2></div>
+            <div class="bar-list" id="qualityBreakdownBars"><!-- injected --></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h2>Size Distribution</h2></div>
+            <div class="histogram" id="sizeHistogram"><!-- injected --></div>
+            <p class="avg-diameter">Average Diameter <strong id="avgDiameter">0 mm</strong></p>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h2>Defect Analysis</h2></div>
+            <div class="defect-cards" id="defectCards"><!-- injected --></div>
+          </div>
+        </div>
+
+        <div class="panel grade-engine-panel">
+          <div class="panel-head"><h2>Quality Grading Engine</h2></div>
+          <div class="engine-flow" aria-hidden="true">
+            <span>Computer Vision Measurements</span>
+            <span class="flow-arrow">↓</span>
+            <span>Defect Detection</span>
+            <span class="flow-arrow">↓</span>
+            <span>Size Assessment</span>
+            <span class="flow-arrow">↓</span>
+            <span>Quality Rules</span>
+            <span class="flow-arrow">↓</span>
+            <span>Batch Grade</span>
+          </div>
+          <p class="disclaimer">Grade estimates shown are demonstration outputs based on simulated AI measurements. Official procurement grading should follow applicable government quality standards and inspection procedures.</p>
+        </div>
+
+        <div class="grade-actions">
+          <button class="btn btn-primary btn-lg" id="toReportBtn" type="button">Generate Digital Report</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: REPORT / COMPLETE -->
+      <div class="step-panel" id="step-5">
+        <div class="complete-banner" id="completeBanner">
+          <span class="complete-check" aria-hidden="true">✓</span>
+          <h2>Inspection Complete</h2>
+          <p>Batch <strong id="completeBatchId">—</strong> has been successfully analyzed.</p>
+          <div class="complete-stats">
+            <div><span id="completeGradeA">0%</span><small>Grade A</small></div>
+            <div><span id="completeQuality">0</span><small>Quality Score</small></div>
+          </div>
+          <div class="complete-actions">
+            <button class="btn btn-secondary" id="viewFullReportBtn" type="button">View Full Report</button>
+            <button class="btn btn-primary" id="completeDownloadBtn" type="button">Download Report</button>
+            <button class="btn btn-ghost" id="newInspectionBtn" type="button">New Inspection</button>
+          </div>
+        </div>
+
+        <article class="report" id="reportArticle">
+          <!-- injected -->
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- HISTORY ---------- -->
+  <section class="view" id="view-history" data-view="history" aria-labelledby="historyHeading">
+    <div class="page-container">
+      <div class="page-head">
+        <h1 id="historyHeading">Inspection History</h1>
+      </div>
+
+      <div class="history-controls">
+        <input type="search" id="historySearch" placeholder="Search by batch or report ID…" aria-label="Search inspection history">
+        <div class="filter-pills" id="historyFilters" role="group" aria-label="Filter history">
+          <button type="button" class="pill active" data-filter="all">All</button>
+          <button type="button" class="pill" data-filter="high">High Quality</button>
+          <button type="button" class="pill" data-filter="review">Needs Review</button>
+          <button type="button" class="pill" data-filter="recent">Recent</button>
+        </div>
+      </div>
+
+      <div class="history-list" id="historyList"><!-- injected --></div>
+    </div>
+  </section>
+
+  <!-- ---------- REPORTS ---------- -->
+  <section class="view" id="view-reports" data-view="reports" aria-labelledby="reportsHeading">
+    <div class="page-container">
+      <div class="page-head">
+        <h1 id="reportsHeading">Generated Reports</h1>
+      </div>
+      <div class="reports-list" id="reportsList"><!-- injected --></div>
+    </div>
+  </section>
+
+  <!-- ---------- HOW IT WORKS ---------- -->
+  <section class="view" id="view-how-it-works" data-view="how-it-works" aria-labelledby="howHeading">
+    <div class="page-container">
+      <div class="page-head">
+        <h1 id="howHeading">How ONIONIQ Works</h1>
+        <p class="page-sub">A transparent look at the AI-assisted grading workflow, from capture to digital report.</p>
+      </div>
+
+      <ol class="how-steps">
+        <li>
+          <span class="how-num">01</span>
+          <h2>Capture</h2>
+          <p>Capture or upload the onion batch image using a device camera or file upload.</p>
+        </li>
+        <li>
+          <span class="how-num">02</span>
+          <h2>Detect</h2>
+          <p>Computer vision identifies individual onions within the batch image and draws bounding boxes.</p>
+        </li>
+        <li>
+          <span class="how-num">03</span>
+          <h2>Analyze</h2>
+          <p>The system evaluates appearance, damage, rot, sprouting, and size for every detected onion.</p>
+        </li>
+        <li>
+          <span class="how-num">04</span>
+          <h2>Grade</h2>
+          <p>Measurements are processed through rule-based grading logic to estimate Grade A and URS percentages.</p>
+        </li>
+        <li>
+          <span class="how-num">05</span>
+          <h2>Report</h2>
+          <p>A digital quality report is generated instantly, ready to save, print, or share.</p>
+        </li>
+      </ol>
+
+      <div class="panel">
+        <div class="panel-head"><h2>About Demo Mode</h2></div>
+        <p>ONIONIQ runs a client-side AI vision simulation entirely in your browser. It uses real image processing (brightness, pixel statistics, dimension analysis) via the Canvas API to seed a deterministic simulated detection and grading pipeline — no backend, no external AI API, and no data leaves your device.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- SETTINGS ---------- -->
+  <section class="view" id="view-settings" data-view="settings" aria-labelledby="settingsHeading">
+    <div class="page-container">
+      <div class="page-head">
+        <h1 id="settingsHeading">Settings</h1>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Appearance</h2></div>
+        <div class="setting-row">
+          <label for="themeToggle">Dark mode</label>
+          <button class="switch" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Toggle dark mode">
+            <span class="switch-knob"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Application</h2></div>
+        <div class="setting-row">
+          <label for="animationToggle">Interface animations</label>
+          <button class="switch active" id="animationToggle" type="button" role="switch" aria-checked="true" aria-label="Toggle interface animations">
+            <span class="switch-knob"></span>
+          </button>
+        </div>
+        <div class="setting-row">
+          <label>Demo mode</label>
+          <span class="badge-inline">Enabled — simulated AI vision</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Data</h2></div>
+        <div class="setting-row">
+          <label>Local inspection history</label>
+          <button class="btn btn-danger-outline" id="clearHistoryBtn" type="button">Clear inspection history</button>
+        </div>
+        <p class="setting-note">All inspection data is stored only in this browser's local storage. Nothing is uploaded anywhere.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== BOTTOM NAV (mobile) ===================== -->
+<nav class="bottom-nav" aria-label="Primary mobile navigation">
+  <a href="#/dashboard" data-route="dashboard"><span aria-hidden="true">⌂</span><small>Dashboard</small></a>
+  <a href="#/inspect" data-route="inspect"><span aria-hidden="true">＋</span><small>Inspect</small></a>
+  <a href="#/history" data-route="history"><span aria-hidden="true">◷</span><small>History</small></a>
+  <a href="#/reports" data-route="reports"><span aria-hidden="true">▣</span><small>Reports</small></a>
+  <a href="#/settings" data-route="settings"><span aria-hidden="true">⚙</span><small>Settings</small></a>
+</nav>
+
+<!-- ===================== TOASTS ===================== -->
+<div id="toastRegion" class="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<!-- ===================== MODAL ROOT ===================== -->
+<div id="modalRoot" class="modal-root hidden" aria-hidden="true"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
